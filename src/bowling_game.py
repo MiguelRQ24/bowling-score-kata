@@ -8,4 +8,6 @@ class BowlingCard:
     # roll tirada 
     # Frame el conjunto de 2 tiradas 
     
-    
+    def total_score(self):
+        self.total = 0
+        return self.total
