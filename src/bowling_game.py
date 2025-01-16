@@ -12,6 +12,8 @@ class BowlingCard:
 
         self.frames = self.__separte_in_frames()
         print(self.frames)
+        self.frames = self.__symbols_to_numbers()
+        print(self.frames)
         self.total = 0
 
         return self.total
@@ -26,4 +28,18 @@ class BowlingCard:
                 frames.append([rolls.pop(0), rolls.pop(0)])
             else:
                 frames.append([rolls.pop(0)])
+        return frames
+    
+    def __symbols_to_numbers(self):
+        frames = self.frames
+        for position_frame, frame in enumerate(frames):
+            for position_roll, roll in enumerate(frame):
+                if roll == '-':
+                    frames[position_frame][position_roll] = 0
+                elif roll == "X":
+                    frames[position_frame][position_roll] = 10
+                elif roll == '/':
+                    frames[position_frame][position_roll] = 10 - int(frames[position_frame][position_roll - 1])
+                else:
+                    frames[position_frame][position_roll] = int(frames[position_frame][position_roll])
         return frames
