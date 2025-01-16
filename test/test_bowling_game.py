@@ -72,6 +72,11 @@ def test_two_strikes_in_extra_rolls():
 
     assert BowlingCard(pins).total_score() == total
 
+    pins = "XXXXXXXXXXXX"
+    total = 300
+
+    assert BowlingCard(pins).total_score() == total
+
 def test_one_strike_in_extra_roll():
 
     pins = "8/549-XX5/53639/9/X"
@@ -99,26 +104,3 @@ def test_triple_strike_before_extra_rolls():
     total = 300
 
     assert BowlingCard(pins).total_score() == total
-
-'''
-@pytest.mark.strike
-
-@pytest.mark.strike
-
-
-@pytest.mark.extra_rolls
-
-
-    
-@pytest.mark.extra_rolls
-
-
-@pytest.mark.extra_rolls
-
-
-@pytest.mark.extra_rolls
-
-
-@pytest.mark.extra_rolls
-
-'''
