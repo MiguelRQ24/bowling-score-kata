@@ -1,24 +1,25 @@
 
 
 class BowlingCard:
-    # una clase simpre tine que tener un tipo de dato oculto
 
     def __init__(self, rolls):
-        self.rolls = list(rolls) # propiedad de instancia, encapsular
-    # roll tirada 
-    # Frame el conjunto de 2 tiradas 
+
+        self.rolls = list(rolls)
+
     
     def total_score(self):
 
         self.frames = self.__separte_in_frames()
-        # print(self.frames)
+
         self.frames = self.__symbols_to_numbers()
-        # print(self.frames)
 
         self.total = self.__calculate_score()
+
         return self.total
     
+    
     def __separte_in_frames(self):
+
         rolls = self.rolls
         frames = []
         for position in range(10):
@@ -30,7 +31,9 @@ class BowlingCard:
                 frames.append([rolls.pop(0)])
         return frames
     
+    
     def __symbols_to_numbers(self):
+
         frames = self.frames
         for position_frame, frame in enumerate(frames):
             for position_roll, roll in enumerate(frame):
@@ -44,7 +47,9 @@ class BowlingCard:
                     frames[position_frame][position_roll] = int(frames[position_frame][position_roll])
         return frames
     
+    
     def __calculate_score(self):
+
         total = 0
         for position_frame, frame in enumerate(self.frames[:-1]):
             for roll in frame:
@@ -59,3 +64,4 @@ class BowlingCard:
                 else:
                     total += roll       
         return total + sum(self.frames[9])
+    
