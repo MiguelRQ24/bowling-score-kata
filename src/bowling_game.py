@@ -11,11 +11,11 @@ class BowlingCard:
     def total_score(self):
 
         self.frames = self.__separte_in_frames()
-        print(self.frames)
+        # print(self.frames)
         self.frames = self.__symbols_to_numbers()
-        print(self.frames)
-        self.total = 0
+        # print(self.frames)
 
+        self.total = self.__calculate_score()
         return self.total
     
     def __separte_in_frames(self):
@@ -43,3 +43,19 @@ class BowlingCard:
                 else:
                     frames[position_frame][position_roll] = int(frames[position_frame][position_roll])
         return frames
+    
+    def __calculate_score(self):
+        total = 0
+        for position_frame, frame in enumerate(self.frames[:-1]):
+            for roll in frame:
+                if roll == 10:
+                    if len(self.frames[position_frame + 1]) > 1:
+                        total += 10 + self.frames[position_frame + 1][0] + self.frames[position_frame + 1][1]
+                    else:
+                        total += 10 + self.frames[position_frame + 1][0] + self.frames[position_frame + 2][0]
+                elif sum(frame) == 10:
+                    total += 10 + self.frames[position_frame + 1][0]
+                    break
+                else:
+                    total += roll       
+        return total + sum(self.frames[9])
