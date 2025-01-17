@@ -2,6 +2,9 @@
 
 class BowlingCard:
 
+    X_VALUE = 10
+    FAIL_VALUE = 0
+
     def __init__(self, rolls):
 
         self.rolls = list(rolls)
@@ -45,9 +48,9 @@ class BowlingCard:
         for position_frame, frame in enumerate(frames):
             for position_roll, roll in enumerate(frame):
                 if roll == '-':
-                    frames[position_frame][position_roll] = 0
+                    frames[position_frame][position_roll] = BowlingCard.FAIL_VALUE
                 elif roll == "X":
-                    frames[position_frame][position_roll] = 10
+                    frames[position_frame][position_roll] = BowlingCard.X_VALUE
                 elif roll == '/':
                     frames[position_frame][position_roll] = 10 - int(frames[position_frame][position_roll - 1])
                 else:
@@ -60,11 +63,11 @@ class BowlingCard:
         total = 0
         for position_frame, frame in enumerate(self.frames[:-1]):
             for roll in frame:
-                if roll == 10:
+                if roll == BowlingCard.X_VALUE:
                     if len(self.frames[position_frame + 1]) > 1:
-                        total += 10 + self.frames[position_frame + 1][0] + self.frames[position_frame + 1][1]
+                        total += BowlingCard.X_VALUE + self.frames[position_frame + 1][0] + self.frames[position_frame + 1][1]
                     else:
-                        total += 10 + self.frames[position_frame + 1][0] + self.frames[position_frame + 2][0]
+                        total += BowlingCard.X_VALUE + self.frames[position_frame + 1][0] + self.frames[position_frame + 2][0]
                 elif sum(frame) == 10:
                     total += 10 + self.frames[position_frame + 1][0]
                     break
