@@ -6,10 +6,17 @@ class BowlingCard:
 
         self.rolls = list(rolls)
 
+        self.frames = self.__separte_in_frames()
+
+        self.total = 0
+
+    def get_rolls(self):
+        return self.rolls
+    
+    def get_frames(self):
+        return self.frames
     
     def total_score(self):
-
-        self.frames = self.__separte_in_frames()
 
         self.frames = self.__symbols_to_numbers()
 
@@ -20,7 +27,7 @@ class BowlingCard:
     
     def __separte_in_frames(self):
 
-        rolls = self.rolls
+        rolls = self.rolls[:]
         frames = []
         for position in range(10):
             if position == 9:

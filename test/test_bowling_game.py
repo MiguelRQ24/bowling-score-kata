@@ -1,6 +1,12 @@
 import pytest
 from src.bowling_game import BowlingCard
 
+def test_score_card():
+    
+    assert BowlingCard("12345123451234512345")
+    assert BowlingCard("12345123451234512345").get_rolls() == list("12345123451234512345")
+    assert BowlingCard("12345123451234512345").get_frames() == [['1', '2'], ['3', '4'], ['5', '1'], ['2', '3'], ['4', '5'], ['1', '2'], ['3', '4'], ['5', '1'], ['2', '3'], ['4', '5']]
+
 def test_hitting_pins_regular():
 
     pins = "12345123451234512345"
