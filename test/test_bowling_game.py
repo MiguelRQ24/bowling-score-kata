@@ -1,5 +1,5 @@
 import pytest
-from src.bowling_game import BowlingCard
+from src.bowling_card import BowlingCard
 
 def test_score_card():
     
