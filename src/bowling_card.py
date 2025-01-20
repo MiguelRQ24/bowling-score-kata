@@ -5,23 +5,23 @@ class BowlingCard:
     X_VALUE = 10
     FAIL_VALUE = 0
 
-    def __init__(self, rolls):
+    def __init__(self, pins): # poner pins
 
-        self.rolls = list(rolls)
+        self.rolls = list(pins)
 
         self.frames = self.__separte_in_frames()
 
         self.total = 0
 
     def get_rolls(self):
-        return self.rolls
+        return ''.join(self.rolls) # devolver strings
     
     def get_frames(self):
         return self.frames
     
     def total_score(self):
 
-        self.frames = self.__symbols_to_numbers()
+        # self.frames = self.__symbols_to_numbers()
 
         self.total = self.__calculate_score()
 
@@ -34,16 +34,16 @@ class BowlingCard:
         frames = []
         for position in range(10):
             if position == 9:
-                frames.append(list(rolls))
+                frames.append(self.__symbols_to_numbers(list(rolls)))
             elif rolls[0] != "X":
-                frames.append([rolls.pop(0), rolls.pop(0)])
+                frames.append(self.__symbols_to_numbers([rolls.pop(0), rolls.pop(0)]))
             else:
-                frames.append([rolls.pop(0)])
+                frames.append(self.__symbols_to_numbers([rolls.pop(0)]))
         return frames
     
-    
+    '''
     def __symbols_to_numbers(self):
-
+        
         frames = self.frames
         for position_frame, frame in enumerate(frames):
             for position_roll, roll in enumerate(frame):
@@ -56,8 +56,21 @@ class BowlingCard:
                 else:
                     frames[position_frame][position_roll] = int(frames[position_frame][position_roll])
         return frames
+        '''
     
-    
+    @staticmethod
+    def __symbols_to_numbers(frame):
+        for position_roll, roll in enumerate(frame):
+            if roll == '-':
+                frame[position_roll] = BowlingCard.FAIL_VALUE
+            elif roll == "X":
+                frame[position_roll] = BowlingCard.X_VALUE
+            elif roll == '/':
+                frame[position_roll] = 10 - int(frame[position_roll - 1])
+            else:
+                frame[position_roll] = int(frame[position_roll])
+        return frame
+
     def __calculate_score(self):
 
         total = 0
