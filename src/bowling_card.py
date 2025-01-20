@@ -4,6 +4,9 @@ class BowlingCard:
 
     X_VALUE = 10
     FAIL_VALUE = 0
+    MAX_PINS_POINTS = 10
+    TOTAL_FRAMES = 10
+    LAST_FRAME_POSITION = 9
 
     def __init__(self, pins):
 
@@ -36,8 +39,8 @@ class BowlingCard:
 
         rolls = self.rolls[:]
         frames = []
-        for position in range(10):
-            if position == 9:
+        for position in range(self.TOTAL_FRAMES):
+            if position == self.LAST_FRAME_POSITION:
                 frames.append(self.__symbols_to_numbers(list(rolls)))
             elif rolls[0] != "X":
                 frames.append(self.__symbols_to_numbers([rolls.pop(0), rolls.pop(0)]))
@@ -62,8 +65,8 @@ class BowlingCard:
         return frames
         '''
     
-    @staticmethod
-    def __symbols_to_numbers(frame):
+    @classmethod
+    def __symbols_to_numbers(cls, frame):
         only_numbers_frame = frame[:]
         for position_roll, roll in enumerate(frame):
             if roll == '-':
@@ -71,7 +74,7 @@ class BowlingCard:
             elif roll == "X":
                 only_numbers_frame[position_roll] = BowlingCard.X_VALUE
             elif roll == '/':
-                only_numbers_frame[position_roll] = 10 - int(only_numbers_frame[position_roll - 1])
+                only_numbers_frame[position_roll] = cls.MAX_PINS_POINTS - int(only_numbers_frame[position_roll - 1])
             else:
                 only_numbers_frame[position_roll] = int(only_numbers_frame[position_roll])
         return only_numbers_frame
@@ -83,12 +86,12 @@ class BowlingCard:
             for roll in frame:
                 if roll == BowlingCard.X_VALUE:
                     total += self.__value_X_frame(self.frames, position_frame)
-                elif sum(frame) == 10:
-                    total += 10 + self.frames[position_frame + 1][0]
+                elif sum(frame) == self.MAX_PINS_POINTS:
+                    total += self.MAX_PINS_POINTS + self.frames[position_frame + 1][0]
                     break
                 else:
                     total += roll       
-        return total + sum(self.frames[9])
+        return total + sum(self.frames[self.LAST_FRAME_POSITION])
     
     @staticmethod
     def __value_X_frame(frames, position_frame):
