@@ -5,20 +5,24 @@ class BowlingCard:
     X_VALUE = 10
     FAIL_VALUE = 0
 
-    def __init__(self, pins): # poner pins
+    def __init__(self, pins):
 
         self.rolls = list(pins)
 
         self.frames = self.__separte_in_frames()
 
-        self.total = 0
+        self.total = self.__calculate_score()
 
     def get_rolls(self):
-        return ''.join(self.rolls) # devolver strings
+        return ''.join(self.rolls)
     
     def get_frames(self):
         return self.frames
     
+    def get_total_score(self):
+        return self.total
+    
+    '''
     def total_score(self):
 
         # self.frames = self.__symbols_to_numbers()
@@ -26,7 +30,7 @@ class BowlingCard:
         self.total = self.__calculate_score()
 
         return self.total
-    
+    '''
     
     def __separte_in_frames(self):
 
@@ -60,16 +64,17 @@ class BowlingCard:
     
     @staticmethod
     def __symbols_to_numbers(frame):
+        only_numbers_frame = frame[:]
         for position_roll, roll in enumerate(frame):
             if roll == '-':
-                frame[position_roll] = BowlingCard.FAIL_VALUE
+                only_numbers_frame[position_roll] = BowlingCard.FAIL_VALUE
             elif roll == "X":
-                frame[position_roll] = BowlingCard.X_VALUE
+                only_numbers_frame[position_roll] = BowlingCard.X_VALUE
             elif roll == '/':
-                frame[position_roll] = 10 - int(frame[position_roll - 1])
+                only_numbers_frame[position_roll] = 10 - int(only_numbers_frame[position_roll - 1])
             else:
-                frame[position_roll] = int(frame[position_roll])
-        return frame
+                only_numbers_frame[position_roll] = int(only_numbers_frame[position_roll])
+        return only_numbers_frame
 
     def __calculate_score(self):
 
@@ -77,10 +82,7 @@ class BowlingCard:
         for position_frame, frame in enumerate(self.frames[:-1]):
             for roll in frame:
                 if roll == BowlingCard.X_VALUE:
-                    if len(self.frames[position_frame + 1]) > 1:
-                        total += BowlingCard.X_VALUE + self.frames[position_frame + 1][0] + self.frames[position_frame + 1][1]
-                    else:
-                        total += BowlingCard.X_VALUE + self.frames[position_frame + 1][0] + self.frames[position_frame + 2][0]
+                    total += self.__value_X_frame(self.frames, position_frame)
                 elif sum(frame) == 10:
                     total += 10 + self.frames[position_frame + 1][0]
                     break
@@ -88,3 +90,9 @@ class BowlingCard:
                     total += roll       
         return total + sum(self.frames[9])
     
+    @staticmethod
+    def __value_X_frame(frames, position_frame):
+            if len(frames[position_frame + 1]) > 1:
+                return BowlingCard.X_VALUE + frames[position_frame + 1][0] + frames[position_frame + 1][1]
+            else:
+                return BowlingCard.X_VALUE + frames[position_frame + 1][0] + frames[position_frame + 2][0]
