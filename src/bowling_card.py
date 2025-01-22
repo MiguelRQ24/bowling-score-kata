@@ -34,20 +34,6 @@ class BowlingCard:
 
         return self.total
     '''
-    
-    def __separte_in_frames(self):
-
-        rolls = self.rolls[:]
-        frames = []
-        for position in range(self.TOTAL_FRAMES):
-            if position == self.LAST_FRAME_POSITION:
-                frames.append(self.__symbols_to_numbers(list(rolls)))
-            elif rolls[0] != "X":
-                frames.append(self.__symbols_to_numbers([rolls.pop(0), rolls.pop(0)]))
-            else:
-                frames.append(self.__symbols_to_numbers([rolls.pop(0)]))
-        return frames
-    
     '''
     def __symbols_to_numbers(self):
         
@@ -63,10 +49,25 @@ class BowlingCard:
                 else:
                     frames[position_frame][position_roll] = int(frames[position_frame][position_roll])
         return frames
-        '''
+    '''
+    
+    
+    def __separte_in_frames(self):
+
+        rolls = self.rolls[:]
+        frames = []
+        for position in range(self.TOTAL_FRAMES):
+            if position == self.LAST_FRAME_POSITION:
+                frames.append(self.__symbols_to_numbers(list(rolls)))
+            elif rolls[0] != "X":
+                frames.append(self.__symbols_to_numbers([rolls.pop(0), rolls.pop(0)]))
+            else:
+                frames.append(self.__symbols_to_numbers([rolls.pop(0)]))
+        return frames
     
     @classmethod
     def __symbols_to_numbers(cls, frame):
+        
         only_numbers_frame = frame[:]
         for position_roll, roll in enumerate(frame):
             if roll == '-':
@@ -95,7 +96,9 @@ class BowlingCard:
     
     @staticmethod
     def __value_X_frame(frames, position_frame):
+
             if len(frames[position_frame + 1]) > 1:
                 return BowlingCard.X_VALUE + frames[position_frame + 1][0] + frames[position_frame + 1][1]
             else:
                 return BowlingCard.X_VALUE + frames[position_frame + 1][0] + frames[position_frame + 2][0]
+    
