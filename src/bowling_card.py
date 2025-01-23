@@ -10,14 +10,19 @@ class BowlingCard:
 
     def __init__(self, pins):
 
+        self.pins = pins
+
         self.rolls = list(pins)
 
         self.frames = self.__separte_in_frames()
 
         self.total = self.__calculate_score()
+    
+    def get_pins(self):
+        return self.pins
 
     def get_rolls(self):
-        return ''.join(self.rolls)
+        return self.rolls
     
     def get_frames(self):
         return self.frames
@@ -54,7 +59,7 @@ class BowlingCard:
     
     def __separte_in_frames(self):
 
-        rolls = self.rolls[:]
+        rolls = self.get_rolls()
         frames = []
         for position in range(self.TOTAL_FRAMES):
             if position == self.LAST_FRAME_POSITION:
@@ -83,16 +88,16 @@ class BowlingCard:
     def __calculate_score(self):
 
         total = 0
-        for position_frame, frame in enumerate(self.frames[:-1]):
+        for position_frame, frame in enumerate(self.get_frames()[:-1]):
             for roll in frame:
                 if roll == BowlingCard.X_VALUE:
-                    total += self.__value_X_frame(self.frames, position_frame)
+                    total += self.__value_X_frame(self.get_frames(), position_frame)
                 elif sum(frame) == self.MAX_PINS_POINTS:
-                    total += self.MAX_PINS_POINTS + self.frames[position_frame + 1][0]
+                    total += self.MAX_PINS_POINTS + self.get_frames()[position_frame + 1][0]
                     break
                 else:
                     total += roll       
-        return total + sum(self.frames[self.LAST_FRAME_POSITION])
+        return total + sum(self.get_frames()[self.LAST_FRAME_POSITION])
     
     @staticmethod
     def __value_X_frame(frames, position_frame):
